@@ -3,11 +3,21 @@ from django.core.validators import RegexValidator
 from django.db.models.deletion import SET_NULL
 from django.urls import reverse
 from django.utils import timezone
-import inspect
 
 
 # Create your models here.
-class ContactInfo(models.Model):
+
+# Abstract TimeStamped model
+class TimeStamped(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+        ordering = ('-modified_at',)
+
+#TODO: Change body field in sections/education/employment to a ForeignKey(OneToMany) of CharFields
+class ContactInfo(TimeStamped):
     street_address = models.CharField(max_length=255, help_text='Applicant\'s street address')
     city = models.CharField(max_length=64, help_text='Applicant\'s city of residence')
     state = models.CharField(max_length=32, help_text='Applicant\'s state of residence')
@@ -19,81 +29,65 @@ class ContactInfo(models.Model):
     email = models.EmailField()
 
     def __str__(self):
-        result = ''
-        
-        result += f'{self.street_address}, \n{self.city}, {self.state} {self.zip_code}\n'
-        result += f'{self.phone_number}\n'
-        result += f'{self.email}\n'
+        result = f'{self.created_at.date()} - {self.street_address}'
 
         return result
 
     def get_absolute_url(self):
         return reverse('contact-info-detail', args=[str(self.id)])
 
-class Section(models.Model):
+class Section(TimeStamped):
     section_title = models.CharField(max_length=255, help_text='Title of this section (ie Experience, Organizations, etc.)')
     section_body = models.TextField(default='', help_text='Body of the section')
 
     def __str__(self):
-        result = ''
-        
-        result += f'{self.section_title}\n'
-        result += f'{self.section_body}\n'
+        result = f'{self.created_at.date()} - {self.section_title}\n'
 
         return result
 
     def get_absolute_url(self):
         return reverse('section-detail', args=[str(self.id)])
 
-class Education(models.Model):
+class Education(TimeStamped):
     school = models.CharField(max_length=255, help_text='School attended')
     degree = models.CharField(max_length=255, help_text='Degree obtained from education')
     gpa = models.FloatField(help_text='GPA received during degree')
     education_body = models.TextField(default='',help_text='Body of the section')
 
     def __str__(self):
-        result = ''
-        
-        result += f'{self.school}, {self.degree}\n{self.gpa}\n'
-        result += f'{self.education_body}\n'
-
+        result = f'{self.created_at.date()} - {self.school}'
         return result
 
     def get_absolute_url(self):
         return reverse('education-detail', args=[str(self.id)])
 
-class Employment(models.Model):
+class Employment(TimeStamped):
     company = models.CharField(max_length=255, help_text='Company worked at during this employment')
     position = models.CharField(max_length=255, help_text='Position while employed at the company')
     employment_body = models.TextField(default='', help_text='Body of the section')
 
     def __str__(self):
-        result = ''
-        
-        result += f'{self.company}, {self.position}\n'
-        result += f'{self.employment_body}\n'
+        result = f'{self.created_at.date()} - {self.company}, {self.position}'
 
         return result
 
     def get_absolute_url(self):
         return reverse('employment-detail', args=[str(self.id)])
 
-class Resume(models.Model):
+#TODO: Add company/job applying for as a field to easily view/filter by 
+class Resume(TimeStamped):
     full_name = models.CharField(max_length=255, help_text='Full name of applicant')
-    creation_date = models.DateTimeField(editable=False)
+    resume_date = models.DateField(help_text='Enter a date the resume was last applicable')
     contact_info = models.ForeignKey(ContactInfo, on_delete=SET_NULL, null=True)
     education_info = models.ManyToManyField(Education, related_name='+', help_text='Select education information about the applicant')
     employment_info = models.ManyToManyField(Employment, related_name='+', help_text='Select employment information about the applicant')
     other_sections = models.ManyToManyField(Section, related_name='+', help_text='Select any other sections to add to this resume')
 
-    def save(self, *args, **kwargs):
-        # Add creation date on initial save
-        if not self.id:
-            self.creation_date = timezone.now()
-        return super(Resume, self).save(*args, **kwargs)
+    class Meta:
+        ordering = ('-resume_date',)
 
     def __str__(self):
-        return f'{self.creation_date} - {self.full_name}\n'
+        return f'{self.resume_date} - {self.full_name}\n'
 
     def get_absolute_url(self):
         return reverse('resume-detail', args=[str(self.id)])
