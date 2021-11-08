@@ -7,23 +7,26 @@ def index(request):
     # Fetch information from db
     my_resume = Resume.objects.first()
 
-    # Get information from resume
+    ## Information from resume
 
-    # From groups
-    contact_info = my_resume.contact_info
-    education_info = my_resume.education_info
+    # Form groups
+    contact_info_dict = vars(my_resume.contact_info)
+    education_info = list(my_resume.education_info.all())
     employment_info = my_resume.employment_info
     other_sections = my_resume.other_sections
 
-    # Details
+    ## Details
     full_name = my_resume.full_name
-    phone_number = contact_info.phone_number
+
+    
 
 
     context = {
         'my_resume': my_resume,
         'full_name': full_name,
-        'phone_number': phone_number,
     }
+
+    context.update(contact_info_dict)
+    context.update(vars(education_info[0]))
 
     return render(request, 'index.html', context=context)
