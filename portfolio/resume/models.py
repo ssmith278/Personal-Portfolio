@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from django.core.validators import RegexValidator
 from django.db.models.deletion import SET_NULL
 from django.urls import reverse
@@ -16,7 +16,6 @@ class TimeStamped(models.Model):
         abstract = True
         ordering = ('-modified_at',)
 
-#TODO: Change body field in sections/education/employment to a ForeignKey(OneToMany) of CharFields
 class ContactInfo(TimeStamped):
     street_address = models.CharField(max_length=255, help_text='Applicant\'s street address')
     city = models.CharField(max_length=64, help_text='Applicant\'s city of residence')
@@ -38,7 +37,7 @@ class ContactInfo(TimeStamped):
 
 class Section(TimeStamped):
     section_title = models.CharField(max_length=255, help_text='Title of this section (ie Experience, Organizations, etc.)')
-    section_body = models.TextField(default='', help_text='Body of the section')
+    section_body = models.TextField(default='', help_text='Description bullets for the section')
 
     def __str__(self):
         result = f'{self.created_at.date()} - {self.section_title}\n'
@@ -82,9 +81,18 @@ class Resume(TimeStamped):
     education_info = models.ManyToManyField(Education, related_name='+', help_text='Select education information about the applicant')
     employment_info = models.ManyToManyField(Employment, related_name='+', help_text='Select employment information about the applicant')
     other_sections = models.ManyToManyField(Section, related_name='+', help_text='Select any other sections to add to this resume')
+    is_chosen = models.BooleanField(default=False, verbose_name='Active_Resume')
 
     class Meta:
-        ordering = ('-resume_date',)
+        ordering = ('is_chosen', '-resume_date',)
+
+    def save(self, *args, **kwargs):
+        if not self.is_chosen:
+            return super(Resume, self).save(*args, **kwargs)
+        with transaction.atomic():
+            Resume.objects.filter(
+                is_chosen=True).update(is_chosen=False)
+            return super(Resume, self).save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.resume_date} - {self.full_name}\n'

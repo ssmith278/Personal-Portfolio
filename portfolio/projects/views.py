@@ -1,5 +1,5 @@
 from django.shortcuts import render
 
 # Create your views here.
-def home(request):
-    return 'Hello World'
+def index(request):
+    pass

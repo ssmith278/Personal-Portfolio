@@ -32,5 +32,5 @@ class EmploymentAdmin(admin.ModelAdmin):
 
 @admin.register(Resume)
 class ResumeAdmin(admin.ModelAdmin):
-    list_display = ('resume_date', 'modified_at', 'full_name')
+    list_display = ('is_chosen','resume_date', 'modified_at', 'full_name')
     list_filter = ('resume_date', 'modified_at', 'full_name')
