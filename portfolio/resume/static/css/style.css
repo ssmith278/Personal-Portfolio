@@ -198,7 +198,8 @@ transition: all 0.35s ease 0s;
 }
 /*----------- team ------------*/
 
-#team {
+/* TODO: change team-bg.jpg image */
+#personal {
    background: url("../img/team-bg.jpg") no-repeat scroll center bottom / cover ;
     color: #fff;
     overflow: hidden;
@@ -1340,7 +1341,3 @@ width:100%;
 }
 
 }
-
-
-
-

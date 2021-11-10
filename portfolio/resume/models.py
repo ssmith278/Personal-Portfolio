@@ -17,13 +17,13 @@ class TimeStamped(models.Model):
         ordering = ('-modified_at',)
 
 class ContactInfo(TimeStamped):
-    street_address = models.CharField(max_length=255, help_text='Applicant\'s street address')
-    city = models.CharField(max_length=64, help_text='Applicant\'s city of residence')
-    state = models.CharField(max_length=32, help_text='Applicant\'s state of residence')
-    zip_code = models.SmallIntegerField(help_text='Applicant\'s zip code')
+    street_address = models.CharField(max_length=255, default='', help_text='Applicant\'s street address')
+    city = models.CharField(max_length=64, default='', help_text='Applicant\'s city of residence')
+    state = models.CharField(max_length=32, default='', help_text='Applicant\'s state of residence')
+    zip_code = models.SmallIntegerField(default=00000, help_text='Applicant\'s zip code')
 
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-    phone_number = models.CharField(max_length=10, help_text='10-digit contact phone number (assumed US number)')
+    phone_number = models.CharField(validators=[phone_regex], max_length=10, help_text='10-digit contact phone number (assumed US number)')
 
     email = models.EmailField()
 
@@ -36,7 +36,7 @@ class ContactInfo(TimeStamped):
         return reverse('contact-info-detail', args=[str(self.id)])
 
 class Section(TimeStamped):
-    section_title = models.CharField(max_length=255, help_text='Title of this section (ie Experience, Organizations, etc.)')
+    section_title = models.CharField(max_length=255, default='', help_text='Title of this section (ie Experience, Organizations, etc.)')
     section_body = models.TextField(default='', help_text='Description bullets for the section')
 
     def __str__(self):
@@ -48,25 +48,28 @@ class Section(TimeStamped):
         return reverse('section-detail', args=[str(self.id)])
 
 class Education(TimeStamped):
-    school = models.CharField(max_length=255, help_text='School attended')
-    degree = models.CharField(max_length=255, help_text='Degree obtained from education')
-    gpa = models.FloatField(help_text='GPA received during degree')
-    education_body = models.TextField(default='',help_text='Body of the section')
+    school = models.CharField(max_length=255, default='', help_text='School attended')
+    degree = models.CharField(max_length=255, default='', help_text='Degree obtained from education')
+    graduation_date = models.CharField(max_length=32, default='', help_text='Date of graduation or expected graduation')
+    gpa = models.FloatField(default=0.0, help_text='GPA received during degree')
+    education_body = models.TextField(default='', help_text='Body of the section')
 
     def __str__(self):
-        result = f'{self.created_at.date()} - {self.school}'
+        result = f'{self.school} {self.graduation_date}'
         return result
 
     def get_absolute_url(self):
         return reverse('education-detail', args=[str(self.id)])
 
 class Employment(TimeStamped):
-    company = models.CharField(max_length=255, help_text='Company worked at during this employment')
-    position = models.CharField(max_length=255, help_text='Position while employed at the company')
+    company = models.CharField(max_length=255, default='', help_text='Company worked at during this employment')
+    position = models.CharField(max_length=255, default='', help_text='Position while employed at the company')
+    start_date = models.CharField(max_length=32, default='', help_text='Starting date at the given position')
+    end_date = models.CharField(max_length=32, default='', help_text='Ending date of employment in the given position')
     employment_body = models.TextField(default='', help_text='Body of the section')
 
     def __str__(self):
-        result = f'{self.created_at.date()} - {self.company}, {self.position}'
+        result = f'{self.company}, {self.position}'
 
         return result
 
@@ -75,8 +78,8 @@ class Employment(TimeStamped):
 
 #TODO: Add company/job applying for as a field to easily view/filter by 
 class Resume(TimeStamped):
-    full_name = models.CharField(max_length=255, help_text='Full name of applicant')
-    resume_date = models.DateField(help_text='Enter a date the resume was last applicable')
+    full_name = models.CharField(max_length=255, default='', help_text='Full name of applicant')
+    resume_date = models.DateField(default=timezone.now, help_text='Enter a date the resume was last applicable')
     contact_info = models.ForeignKey(ContactInfo, on_delete=SET_NULL, null=True)
     education_info = models.ManyToManyField(Education, related_name='+', help_text='Select education information about the applicant')
     employment_info = models.ManyToManyField(Employment, related_name='+', help_text='Select employment information about the applicant')

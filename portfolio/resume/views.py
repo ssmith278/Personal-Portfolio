@@ -1,12 +1,12 @@
 from django.forms.models import model_to_dict
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from.models import Resume
 
 # Create your views here.
 def index(request):
     
     # Fetch information from db
-    my_resume = Resume.objects.get(is_chosen=True)
+    my_resume = get_object_or_404(Resume, is_chosen=True)
 
     ## Information from resume
 

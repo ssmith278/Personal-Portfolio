@@ -1,48 +1,59 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>My Resume</h1>
-  <!-- Name and Contact Info -->
-  <h2 class='applicant_name'>{{ full_name }}</h2>
-  <div class='contact_info'>
-    <div>{{ street_address }}</div>
-    <div>{{ city }}, {{ state }} {{ zip_code }}</div>
-    <div>{{ phone_number }}</div>
-    <div>{{ email }}</div>
-  </div>
-  <br>
-  <!-- Education Section -->
-  <div class='education'>
-    <h3>Education</h3>
-    {% for entry in education %}
-      <h4>{{ entry.school }}</h4>
-        <div>{{ entry.degree }}, GPA: {{ entry.gpa }}</div>
-        <ul> {% for line in entry.education_body %}
+  <div class='container'>
+    <!-- Name and Contact Info -->
+    <h2 class='applicant_name'>{{ full_name }}</h2>
+    <div class='contact_info'>
+      <div>{{ street_address }}</div>
+      <div>{{ city }}, {{ state }} {{ zip_code }}</div>
+      <div>{{ phone_number }}</div>
+      <div>{{ email }}</div>
+    </div>
+    <br>
+    <!-- Education Section -->
+    <div class='education'>
+      <h3>Education</h3>
+      {% for entry in education %}
+        <h4 style="text-align: left;">
+          {{ entry.school }} 
+          <span style="float: right;">
+            {{ entry.graduation_date }}
+          </span>
+        </h4>
+          <div>{{ entry.degree }}, GPA: {{ entry.gpa }}</div>
+          <ul> {% for line in entry.education_body %}
+                <li>{{ line }}</li>
+              {% endfor %}
+          </ul>
+          {% endfor %}
+    </div>
+    <!-- Employment Section -->
+    <div class='employment'>
+      <h3>Employment</h3>
+      {% for entry in employment %}
+      <h4 style="text-align: left;">
+        {{ entry.company }} 
+        <span style="float: right;">
+          {{ entry.start_date }} - {{ entry.end_date }}
+        </span>
+      </h4>
+        <div>{{ entry.position }}</div>
+        <ul> {% for line in entry.employment_body %}
               <li>{{ line }}</li>
             {% endfor %}
         </ul>
         {% endfor %}
+    </div>
+    <!-- Other Sections -->
+    <div class='other'>
+      {% for entry in other %}
+        <h3 class='section_title'>{{ entry.section_title }}</h3>
+        <ul> {% for line in entry.section_body %}
+              <li>{{ line }}</li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </div> 
   </div>
-  <!-- Employment Section -->
-  <div class='employment'>
-    <h3>Employment</h3>
-    {% for entry in employment %}
-      <h4>{{ entry.company }}</h4>
-      <div>{{ entry.position }}</div>
-      <ul> {% for line in entry.employment_body %}
-            <li>{{ line }}</li>
-          {% endfor %}
-      </ul>
-      {% endfor %}
-  </div>
-  <!-- Other Sections -->
-  <div class='other'>
-    {% for entry in other %}
-      <h3 class='section_title'>{{ entry.section_title }}</h3>
-      <ul> {% for line in entry.section_body %}
-            <li>{{ line }}</li>
-          {% endfor %}
-      </ul>
-      {% endfor %}
-  </div> 
 {% endblock %}
