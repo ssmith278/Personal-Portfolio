@@ -1,16 +1,18 @@
 {% extends "base_generic.html" %}
+{% load format_phone %}
+{% load split_string %}
 
 {% block content %}
   <div class='container'>
     <!-- Name and Contact Info -->
     <h2 class='applicant_name'>{{ full_name }}</h2>
     <div class='contact_info'>
-      <div>{{ street_address }}</div>
-      <div>{{ city }}, {{ state }} {{ zip_code }}</div>
-      <div>{{ phone_number }}</div>
-      <div>{{ email }}</div>
+      <div>{{ contact.street_address }}</div>
+      <div>{{ contact.city }}, {{ contact.state }} {{ contact.zip_code }}</div>
+      <div>{{ contact.phone_number|format_phone }}</div>
+      <div>{{ contact.email }}</div>
     </div>
-    <br>
+    <br/>
     <!-- Education Section -->
     <div class='education'>
       <h3>Education</h3>
@@ -22,7 +24,7 @@
           </span>
         </h4>
           <div>{{ entry.degree }}, GPA: {{ entry.gpa }}</div>
-          <ul> {% for line in entry.education_body %}
+          <ul> {% for line in entry.education_body|split_string %}
                 <li>{{ line }}</li>
               {% endfor %}
           </ul>
@@ -39,7 +41,7 @@
         </span>
       </h4>
         <div>{{ entry.position }}</div>
-        <ul> {% for line in entry.employment_body %}
+        <ul> {% for line in entry.employment_body|split_string %}
               <li>{{ line }}</li>
             {% endfor %}
         </ul>
@@ -49,11 +51,46 @@
     <div class='other'>
       {% for entry in other %}
         <h3 class='section_title'>{{ entry.section_title }}</h3>
-        <ul> {% for line in entry.section_body %}
+        <ul> {% for line in entry.section_body|split_string %}
               <li>{{ line }}</li>
             {% endfor %}
         </ul>
         {% endfor %}
     </div> 
   </div>
+{% endblock %}
+
+{% block projects %}
+  <!-- Start Projects Include Loop -->
+
+  {% for project in my_projects %}
+    <div class="col-xs-12 col-sm-6 col-md-3 wow rotateInDownLeft animated" data-wow-delay=".{{ forloop.counter }}s">
+      <div class="for-box-crecl">
+        <i class="fa fa-laptop"></i>
+      </div>
+      <div class="clr{% cycle '1' '2' '3' '4' %}">				
+      <h2>
+          {{ project.start_date.year }}
+          <br/>
+          {{ project.title|upper }}        
+      </h2>
+      </div>
+      <div class="wbox">
+        <strong>{{ project.languages }}, {{ project.technologies }}</strong>
+        <p>{{ project.description }}</p>
+        <a href="{{ project.github_page }}" class="clr{% cycle '1' '2' '3' '4' %}-a">+</a>
+      </div>
+    </div>
+  {% endfor %}
+  <!-- End Loop -->
+{% endblock %}      
+
+{% block contact_footer %}
+
+  <section class="widget widget_text" id="text-15">
+    <div class="textwidget">{{ contact.city }}, {{ contact.state }} {{ contact.country }}<br/>
+  <p><i class="fa fa-phone"></i> {{ contact.phone_number|format_phone }}<br/>
+  <i class="fa fa-envelope"></i><a href="{{ contact.email }}"> {{ contact.email }}</a></p>
+  </section>
+
 {% endblock %}

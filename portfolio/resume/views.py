@@ -1,47 +1,36 @@
 from django.forms.models import model_to_dict
 from django.shortcuts import render, get_object_or_404
-from.models import Resume
+from .models import Resume
+from projects.models import Project
 
 # Create your views here.
 def index(request):
     
     # Fetch information from db
     my_resume = get_object_or_404(Resume, is_chosen=True)
+    my_projects = Project.objects.all()
 
-    ## Information from resume
+    # Resume information
+    contact_info = my_resume.contact_info
+    education = my_resume.education_info.all()
+    employment = my_resume.employment_info.all()
+    other_sections = my_resume.other_sections.all()
 
-    # Form groups
-    contact_info_dict = model_to_dict(my_resume.contact_info)
-    education_dicts = list(my_resume.education_info.all())
-    employment_dicts = list(my_resume.employment_info.all())
-    other_sections_dicts = list(my_resume.other_sections.all())
+    # Projects
 
     ## Details
     full_name = my_resume.full_name
-
-    # Split bodies into bullets for custom formatting (this is so against DRY it hurts)
-    for entry in education_dicts:
-        entry.education_body = entry.education_body.splitlines()
-        entry = model_to_dict(entry)
-
-    for entry in employment_dicts:
-        entry.employment_body = entry.employment_body.splitlines() 
-        entry = model_to_dict(entry)
-
-    for entry in other_sections_dicts:
-        entry.section_body = entry.section_body.splitlines()
-        entry = model_to_dict(entry)
-
-
+    
     context = {
+        # Resume data
         'my_resume': my_resume,
         'full_name': full_name,
-        'contact': contact_info_dict,
-        'education': education_dicts,
-        'employment': employment_dicts,
-        'other': other_sections_dicts,
+        'contact': contact_info,
+        'education': education,
+        'employment': employment,
+        'other': other_sections,
+        # Projects data
+        'my_projects': my_projects,
     }
-
-    context.update(contact_info_dict)
 
     return render(request, 'index.html', context=context)

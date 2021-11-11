@@ -126,12 +126,16 @@
     <section id="resume" class="">
 		<!-- =============== container =============== -->
         <div class="container">            
+			<div class="title">
+				<br>
+			</div>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 wow fadeInDown animated" data-wow-delay=".5s">
                   </div>
                     {% block content %} {% endblock %}
                   </div>     
             </div>
+			<br>
         </div>   
 		<!-- =============== container end =============== -->		
     </section>
@@ -141,16 +145,16 @@
             <div class="row">
 				<div class="title">
 				<h2>Personal Life</h2>
-				<p>Here's more about Steve.</p>
+				<p>Here's some facts about me.</p>
 				</div>
                 <div class="col-xs-12 col-sm-6 col-md-3 wow fadeInDown animated" data-wow-delay=".1s">
-                   <div class="timg"><img src="{% static 'img/team-img1.jpg' %}"/></div>
+                   <div class="timg"><img src="{% static 'img/selfie.jpg' %}"/></div>
 				    <div class="t-box">
-				   <span>Software Engineer</span>
+				   <!-- <span>Software Engineer</span> -->
 				   <ul class="social-links">
-						<li><a class="wow fadeInUp animated" href="#"><i class="fa fa-linkedin"></i></a></li>
-						<li><a data-wow-delay=".1s" class="wow fadeInUp animated" href="#"><i class="fa fa-github"></i></a></li>
-						<li><a data-wow-delay=".2s" class="wow fadeInUp animated" href="#"><i class="fa fa-instagram"></i></a></li>
+						<li><a class="wow fadeInUp animated" href="#"><i style="font-size: 2rem" class="fa fa-linkedin"></i></a></li>
+						<li><a data-wow-delay=".1s" class="wow fadeInUp animated" href="#"><i style="font-size: 2rem" class="fa fa-github"></i></a></li>
+						<li><a data-wow-delay=".2s" class="wow fadeInUp animated" href="#"><i style="font-size: 2rem" class="fa fa-instagram"></i></a></li>
 					</ul>
 				   </div>
                   </div>				  						      
@@ -158,35 +162,21 @@
         </div>   
 		<!-- =============== container end =============== -->		
     </section>	
-	<!-- =============== Services =============== -->
-    <section id="projects" class="">
-		<!-- =============== container =============== -->
-        <div class="container">            
-            <div class="row">
-			 <div class="col-xs-12 col-sm-12 col-md-6 wow fadeInLeft animated" data-wow-delay=".5s">
-                     <img src="{% static 'img/services-img.jpg' %}" class="img-left"/>               
-                  </div>     
-                <div class="col-xs-12 col-sm-12 col-md-6 wow fadeInRight animated" data-wow-delay=".5s">
-                   <h2>Services</h2>
-				   <p>Lorem ipsum dolor sit amet, netus pellentesque mauris, non quis adipiscing aliquam tortor nulla, ut dolor, mauris sem ultricies sed tellus ut aliquam. Donec vel sollicitudin orci mi ut, neque aliquam vel vel nostrum enim tristique, magna rhoncus. Dapibus purus eget cubilia eget, in ut in mi dui ipsum odio, nullam vestibulum aliquam fusce, dignissim venenatis ultricies sed mattis non, metus a libero et. Imperdiet aliquet. Vivamus malesuada, ultrices convallis, diam vitae pellentesque volutpat ante vitae amet, ac leo, arcu duis venenatis in auctor sit suscipit. </p>
-				   <p>Integer sapien sed mauris nec, volutpat risus leo placerat elit at aliquet, a egestas ultrices, vitae non amet lacus etiam, malesuada pellentesque scelerisque. Neque fermentum parturient ante pede, a dui ut ultricies luctus non nobis, amet nibh et. Diam nunc in eleifend commodo ante, amet quam integer dolor sit volutpat faucibus, sed sem, et amet sed, vestibulum mollit et a ac nullam. Eu nunc voluptas risus dui et pellentesque.</p>
-                  </div>
-                 
-            </div>
-        </div>   
-		<!-- =============== container end =============== -->		
-    </section>	
+	<!-- =============== Projects =============== -->
+
 	<!-- =============== for box =============== -->		
-	<section class="for-box">
-	 <div class="container">
+	<section id="projects" class="for-box">
+	 <div class="container-fluid">
 		<div class="row">
-			<div class="col-xs-12 col-sm-6 col-md-3 wow rotateInDownLeft animated" data-wow-delay=".1s">
+
+			{% block projects %}{% endblock %}
+			<!-- <div class="col-xs-12 col-sm-6 col-md-3 wow rotateInDownLeft animated" data-wow-delay=".1s">
 				<div class="for-box-crecl">
 					<i class="fa fa-home"></i>
 				</div>
 				<div class="clr1">				
 				<h2>
-					WEB<br/>DESIGN
+					TEXT<br/>FORMATTER
 				</h2>
 				</div>
 				<div class="wbox">
@@ -203,13 +193,12 @@ nullam rhoncus tortor at dignissim vehicula.</p>
 				</div>
 				<div class="clr2">				
 				<h2>
-					WEB<br/>DEVELOMENT
+					SENTENCE<br/>PROCESSOR
 				</h2>
 				</div>
 				<div class="wbox">
-					<strong>sorem ipsum </strong>
-					<p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Vestibulum ac vehicula leo dulam 
-nullam rhoncus tortor at dignissim vehicula.</p>
+					<strong></strong>
+					<p></p>
 					<a href="#" class="clr2-a">+</a>
 				</div>
 				
@@ -220,7 +209,7 @@ nullam rhoncus tortor at dignissim vehicula.</p>
 				</div>
 				<div class="clr3">				
 				<h2>
-					PRINT<br/>DESING
+					MULTITHREADED<br/>SORTER
 				</h2>	
 				</div>
 				<div class="wbox">
@@ -237,7 +226,7 @@ nullam rhoncus tortor at dignissim vehicula.</p>
 				</div>
 				<div class="clr4">				
 				<h2>
-					ONLINE<br/>MARKITING
+					MOTIF<br/>FINDER
 				</h2>
 				</div>
 				<div class="wbox">
@@ -247,7 +236,7 @@ nullam rhoncus tortor at dignissim vehicula.</p>
 					<a href="#" class="clr4-a">+</a>
 				</div>
 				
-			</div>
+			</div> -->
 		</div>
 	 </div>
 	</section>
@@ -355,13 +344,7 @@ nullam rhoncus tortor at dignissim vehicula.</p>
 				</div>
 				<div data-wow-delay=".6s" class="col-xs-12 col-sm-6 col-md-6 wow bounceIn  animated" style="visibility: visible; animation-delay: 0.6s; animation-name: bounceIn;">
 
-					  <section class="widget widget_text" id="text-15">
-                         <h3 class="widget-title">California, United States</h3> <div class="textwidget">786, Firs Avenue, The Mall,<br>
-                        <p>Tel: 01 234-56786<br>
-                        Mobile: 01 234-56786<br>
-                        E-mail: <a href="#">info@Be.com</a></p>
-                        <a href="#">Get directions on the map</a> →</div>
-                    </section>
+					{% block contact_footer %}{% endblock %}
 
 				</div>
 			</div>

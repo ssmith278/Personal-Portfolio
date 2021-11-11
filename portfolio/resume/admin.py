@@ -9,7 +9,6 @@ from .models import ContactInfo, Section, Education, Employment, Resume
 #admin.site.register(Resume)
 
 #Extends default admin behavior to define model-specific admin behavior
-#TODO: Add list views for all models
 @admin.register(ContactInfo)
 class ContactInfoAdmin(admin.ModelAdmin):
     list_display = ('modified_at', 'city', 'state', 'phone_number', 'email')
