@@ -11,15 +11,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="{% block author %}{% endblock %}">
 
-	{% block title %}<title>Resume</title>{% endblock %}
+	{% block title %}<title>My Name</title>{% endblock %}
 	<!-- Add additional CSS in static file -->
 	{% load static %}
     <!-- =============== Bootstrap Core CSS =============== -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
-    <!-- =============== fonts awesome =============== -->
-    <link rel="stylesheet" href="{% static 'font/css/font-awesome.min.css' %}" type="text/css">
     <!-- =============== Plugin CSS =============== -->
     <link rel="stylesheet" href="{% static 'css/animate.min.css' %}" type="text/css">
     <!-- =============== Custom CSS =============== -->
@@ -36,6 +34,9 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- Font Awesome Kit -->
+    <script src="https://kit.fontawesome.com/b13f4482d2.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -61,8 +62,7 @@
                     </a>
                 </div>
 
-                <!-- Collect the nav links, forms, and other content for toggling -->
-
+                <!-- Collect the nav links, forms, and other content for toggling -->                
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
 						<li>
@@ -72,7 +72,7 @@
                             <a class="page-scroll" href="#resume">Resume</a>
                         </li>
                         <li>
-                            <a class="page-scroll" href="#projects">Projects</a>
+                            <a class="page-scroll" href="#about">About Me</a>
                         </li>
                         <li>
                             <a class="page-scroll" href="#contact">Contact</a>
@@ -87,38 +87,14 @@
     </nav>
     <!-- =============== header =============== -->
     <header id="home" class="header">
+        <div class="overlay-block"></div>
 		<!-- =============== container =============== -->
         <div class="container">
-            <div class="header-content row">
-				
-				<div id="owl-demo" class="owl-carousel header1">
-				  <div>
-				  <div class="col-xs-12 col-sm-6 col-md-6 header-text">
-                    <h2 class="wow bounceIn animated" data-wow-delay=".40s">FRIENDLY <span>TEMPLATE</span> FOR <br/>YOUR WEBSITE</h2>
-                    <h3 class="wow bounceIn animated" data-wow-delay=".50s">FOR YOUR WEBSITE </h3>
-                    <p class="wow bounceIn animated" data-wow-delay=".60s">Lorem ipsum dolor sit amet, consectetur adipiscing elit.We ensure sit amet, consectetur adipiscing elit</p>
-                    <p>
-                        <div class="btn btn-primary btn-lg btn-ornge wow bounceIn animated" data-wow-delay="1s"><i class="hbtn"></i> <span>Click Here</span></i>
-                        </div>
-                    </p>
-					</div>               
-				</div>
-				 <div>
-				  <div class="col-xs-12 col-sm-6 col-md-6 header-text">
-                    <h2 class="wow bounceIn animated" data-wow-delay=".40s">FRIENDLY <span>THIS</span> FOR <br/>YOUR WEBSITE</h2>
-                    <h3 class="wow bounceIn animated" data-wow-delay=".50s">FOR YOUR WEBSITE </h3>
-                    <p class="wow bounceIn animated" data-wow-delay=".60s">Lorem ipsum dolor sit amet, consectetur adipiscing elit.We ensure sit amet, consectetur adipiscing elit</p>
-                    <p>
-                        <div class="btn btn-primary btn-lg btn-ornge wow bounceIn animated" data-wow-delay="1s"><i class="hbtn"></i> <span>Click Here</span></i>
-                        </div>
-                    </p>
-					</div>               
-				</div>
+            <div class="header-content row">                
+				<div id="owl-demo" class="owl-carousel header1">                    
+                    {% block projects %} {% endblock %}
 				</div>				 
-				</div>
-
-
-                
+            </div>                
         </div>
 		<!-- =============== container end =============== -->
     </header>
@@ -139,16 +115,15 @@
         </div>   
 		<!-- =============== container end =============== -->		
     </section>
-	<section id="personal" class="">
+	<section id="about" class="">
 		<!-- =============== container =============== -->
         <div class="container">            
             <div class="row">
 				<div class="title">
-				<h2>Personal Life</h2>
-				<p>Here's some facts about me.</p>
+				    <i class="fa fa-address-card size"></i><h2>About Me</h2>
 				</div>
                 <div class="col-xs-12 col-sm-6 col-md-3 wow fadeInDown animated" data-wow-delay=".1s">
-                   <div class="timg"><img src="{% static 'img/selfie.jpg' %}"/></div>
+                    <div class="timg"><img src="{% static 'img/selfie.jpg' %}"/></div>
 				    <div class="t-box">
 				   <!-- <span>Software Engineer</span> -->
 				   <ul class="social-links">
@@ -162,121 +137,35 @@
         </div>   
 		<!-- =============== container end =============== -->		
     </section>	
-	<!-- =============== Projects =============== -->
-
-	<!-- =============== for box =============== -->		
-	<section id="projects" class="for-box">
-	 <div class="container-fluid">
-		<div class="row">
-
-			{% block projects %}{% endblock %}
-			<!-- <div class="col-xs-12 col-sm-6 col-md-3 wow rotateInDownLeft animated" data-wow-delay=".1s">
-				<div class="for-box-crecl">
-					<i class="fa fa-home"></i>
-				</div>
-				<div class="clr1">				
-				<h2>
-					TEXT<br/>FORMATTER
-				</h2>
-				</div>
-				<div class="wbox">
-					<strong>sorem ipsum </strong>
-					<p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Vestibulum ac vehicula leo dulam 
-nullam rhoncus tortor at dignissim vehicula.</p>
-					<a href="#" class="clr1-a">+</a>
-				</div>
-				
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-3 wow rotateInDownLeft animated" data-wow-delay=".2s">
-				<div class="for-box-crecl">
-					<i class="fa fa-code"></i>
-				</div>
-				<div class="clr2">				
-				<h2>
-					SENTENCE<br/>PROCESSOR
-				</h2>
-				</div>
-				<div class="wbox">
-					<strong></strong>
-					<p></p>
-					<a href="#" class="clr2-a">+</a>
-				</div>
-				
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-3 wow rotateInDownRight animated" data-wow-delay=".3s">
-				<div class="for-box-crecl">
-					<i class="fa fa-rocket"></i>
-				</div>
-				<div class="clr3">				
-				<h2>
-					MULTITHREADED<br/>SORTER
-				</h2>	
-				</div>
-				<div class="wbox">
-					<strong>sorem ipsum </strong>
-					<p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Vestibulum ac vehicula leo dulam 
-nullam rhoncus tortor at dignissim vehicula.</p>
-					<a href="#" class="clr3-a">+</a>
-				</div>
-			
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-3 wow rotateInDownRight animated" data-wow-delay=".4s">
-				<div class="for-box-crecl">
-					<i class="fa fa-wifi"></i>
-				</div>
-				<div class="clr4">				
-				<h2>
-					MOTIF<br/>FINDER
-				</h2>
-				</div>
-				<div class="wbox">
-					<strong>sorem ipsum </strong>
-					<p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Vestibulum ac vehicula leo dulam 
-nullam rhoncus tortor at dignissim vehicula.</p>
-					<a href="#" class="clr4-a">+</a>
-				</div>
-				
-			</div> -->
-		</div>
-	 </div>
-	</section>
 	<!-- =============== Counter =============== -->
     <section class="counter">
 		<!-- =============== container =============== -->
         <div class="container">            
             <div class="row">
-			<div class="title">
-				<h2>we are   awesome,   check some interesting facts</h2>				
-				</div>
 			 <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".1s">
-                            <i class="fa fa-clock-o size"></i>
-							<h2>522</h2>
-							<span>Hour of Work</span>
+                            <i class="fa fa-code size"></i>
+							<h2></h2>
+							<span><a href="https://www.github.com/ssmith278" target="_blank">Software Engineer</a></span>
                   </div>     
                <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".2s">
-                            <i class="fa fa-coffee size"></i>
-							<h2>888</h2>
-							<span>Cup of Coffee</span>
+                            <i class="fa fa-globe size"></i>
+                            <h2></h2>
+							<span><a href="https://www.google.com/maps/d/u/0/edit?mid=1b7_q0Sjo2Ehm4sNXodn31517N5ezY11W&usp=sharing" target="_blank">World Traveller</a></span>
                   </div>  
 				   <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".3s">
-                            <i class="fa fa-trophy size"></i>
-							<h2>11</h2>
-							<span>Awards Won</span>
+                            <i class="fa fa-language size"></i>
+							<h2></h2>
+							<span>Japanese Speaker</span>
                   </div>  
-				   <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".4s">
-                            <i class="fa fa-code size"></i>
-							<h2>55566</h2>
-							<span>Line of Code</span>
+				   <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".4s">                            
+                            <i class="fa fa-dot-circle size"></i>    
+                            <h2></h2>
+							<span>Billiards Player</span>
                   </div>  
 				   <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".5s">
-                            <i class="fa fa-globe size"></i>
-							<h2>133</h2>
-							<span>Clients Worldwide</span>
-                  </div>  
-				   <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".6s">
-                            <i class="fa fa-rocket size"></i>
-							<h2>77</h2>
-							<span>Projects Delivered</span>
+                            <i class="fa fa-heart size"></i>
+							<h2></h2>
+							<span><a href="https://www.fitbit.com/user/9GJ7YL" target="_blank">Health Enthusiast</a></span>
                   </div>  
             </div>
         </div>   
@@ -289,7 +178,7 @@ nullam rhoncus tortor at dignissim vehicula.</p>
 			    <div class="row">
                 <div class="title">
 				<h2>Contact</h2>
-				<p>Meet some of our lovely, passionate, positive people.</p>
+				<p>Drop me a message. I'd love to hear from you!</p>
 				</div>
 			</div>
 

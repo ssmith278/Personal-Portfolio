@@ -2,13 +2,20 @@
 {% load format_phone %}
 {% load split_string %}
 
+{% block author %}
+Steve Smith
+{% block author %}
+
+{% block title %}
+<title>Steve Smith</title>
+{% endblock %}
+
 {% block content %}
   <div class='container'>
     <!-- Name and Contact Info -->
     <h2 class='applicant_name'>{{ full_name }}</h2>
     <div class='contact_info'>
-      <div>{{ contact.street_address }}</div>
-      <div>{{ contact.city }}, {{ contact.state }} {{ contact.zip_code }}</div>
+      <div>{{ contact.city }}, {{ contact.state }}</div>
       <div>{{ contact.phone_number|format_phone }}</div>
       <div>{{ contact.email }}</div>
     </div>
@@ -63,24 +70,38 @@
 {% block projects %}
   <!-- Start Projects Include Loop -->
 
+  <div>
+  <div class="col-xs-12 col-sm-6 col-md-6 header-text">
+    <h2 class="wow bounceIn animated" data-wow-delay=".40s">
+      Highlighted Projects
+    </h2>
+    {% for project in my_projects %}
+        <br/>
+        <h3 class="wow bounceIn animated" data-wow-delay=".50s" style="text-align: left; margin: auto; width: 300px;">- {{ project.title }}</h3>
+    {% endfor %}
+  </div> 
+  </div>
   {% for project in my_projects %}
-    <div class="col-xs-12 col-sm-6 col-md-3 wow rotateInDownLeft animated" data-wow-delay=".{{ forloop.counter }}s">
-      <div class="for-box-crecl">
-        <i class="fa fa-laptop"></i>
-      </div>
-      <div class="clr{% cycle '1' '2' '3' '4' %}">				
-      <h2>
-          {{ project.start_date.year }}
-          <br/>
-          {{ project.title|upper }}        
-      </h2>
-      </div>
-      <div class="wbox">
-        <strong>{{ project.languages }}, {{ project.technologies }}</strong>
-        <p>{{ project.description }}</p>
-        <a href="{{ project.github_page }}" class="clr{% cycle '1' '2' '3' '4' %}-a">+</a>
-      </div>
-    </div>
+    <div>      
+    <div class="col-xs-12 col-sm-6 col-md-6 header-text">
+              <h2 class="wow bounceIn animated" data-wow-delay=".40s">                
+                {% for word in project.title|upper|split_string:" " %}        
+                  <br/>
+                  {{ word }}
+                {% endfor %}
+              </h2>
+              <h3 class="wow bounceIn animated" data-wow-delay=".50s">{ {{ project.languages }} } <br/> {{ project.technologies }}</h3>
+              <p class="wow bounceIn animated" data-wow-delay=".60s">{{ project.description }}</p>
+              {% if project.github_page %}
+              <p>
+                  <a href="{{ project.github_page }}" target="_blank" class="btn btn-primary btn-lg btn-ornge wow bounceIn animated" data-wow-delay="1s">
+                    <i class="hbtn"></i> 
+                    <span>GitHub Repo</span>
+                  </a>                  
+              </p>
+              {% endif %}
+    </div>               
+  </div>
   {% endfor %}
   <!-- End Loop -->
 {% endblock %}      
@@ -89,8 +110,8 @@
 
   <section class="widget widget_text" id="text-15">
     <div class="textwidget">{{ contact.city }}, {{ contact.state }} {{ contact.country }}<br/>
-  <p><i class="fa fa-phone"></i> {{ contact.phone_number|format_phone }}<br/>
-  <i class="fa fa-envelope"></i><a href="{{ contact.email }}"> {{ contact.email }}</a></p>
+  <p><i class="fa fa-mobile-alt"></i> {{ contact.phone_number|format_phone }}<br/>
+  <i class="fa fa-envelope"></i><a href="mailto: {{ contact.email }}" target="_blank"> {{ contact.email }}</a></p>
   </section>
 
 {% endblock %}

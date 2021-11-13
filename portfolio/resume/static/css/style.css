@@ -11,7 +11,6 @@ body {
     font-family: arial;
     font-size:14px;
 }
-
 a {
     transition: all 0.35s ease 0s;
     -webkit-transition: all 0.35s ease 0s;
@@ -46,14 +45,6 @@ a {
     overflow: hidden;
     transition: all 0.35s ease 0s;
 }
-.header2 {
-   background: rgba(0, 0, 0, 0) url("../img/header2.jpg") repeat fixed center bottom / cover  ;
-    color: #fff;
-    height: 100%;
-    overflow: hidden;
-    transition: all 0.35s ease 0s;
-}
-
 .logo{
     float: left;
     text-align: center;
@@ -85,7 +76,7 @@ color:#fff;
     padding-top: 15px;
 }
 .navbar-default {
-    background: rgba(0, 0, 0, 0) none repeat scroll 0 0 !important;
+    background: rgba(0, 0, 0, .9) none repeat scroll 0 0 !important;
 }
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
     background-color: #ffa100;
@@ -108,7 +99,7 @@ transition: all 0.35s ease 0s;
     color: #fff;
 }
 .header-text {
-    background: rgba(0, 0, 0, 0.5) none repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0.9) none repeat scroll 0 0;
     display: block;
     float: none;
     font-size: 18px;
@@ -116,6 +107,7 @@ transition: all 0.35s ease 0s;
     padding: 42px !important;
     text-align: center;
     width: 700px;
+    min-height: 500px;
 }
 .header-text h2 {
     font-size: 45px;
@@ -162,7 +154,6 @@ transition: all 0.35s ease 0s;
 	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
 	transition: all 0.35s ease 0s;
 }
-
 #resume {
     overflow: hidden;
 }
@@ -197,9 +188,7 @@ transition: all 0.35s ease 0s;
     text-align: left;
 }
 /*----------- team ------------*/
-
-/* TODO: change team-bg.jpg image */
-#personal {
+#about {
    background: url("../img/personal-bg.jpg") no-repeat scroll center bottom / cover ;
     color: #fff;
     overflow: hidden;
