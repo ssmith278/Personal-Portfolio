@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # From .env file:
 # from decouple import config
 # SECRET_KEY = config("SECRET_KEY")
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
