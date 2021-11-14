@@ -3,8 +3,8 @@ FROM python:3.8-slim-buster
 
 WORKDIR /usr/src/app
 
-ARG SECRET_KEY
-RUN export SECRET_KEY=$SECRET_KEY
+ARG ONBUILD_SECRET_KEY="bananas"
+ENV SECRET_KEY=${SECRET_KEY}
 
 COPY requirements.txt requirements.txt
 
