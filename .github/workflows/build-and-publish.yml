@@ -35,7 +35,7 @@ jobs:
         with:
           # relative path to the place where source code with Dockerfile is located
           context: ./portfolio
-          secrets: |
+          build-args:
             SECRET_KEY=${{ secrets.SECRET_KEY }}
           # Note: tags has to be all lower-case
           tags: |
