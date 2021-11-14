@@ -4,7 +4,7 @@ FROM python:3.8-slim-buster
 WORKDIR /usr/src/app
 
 ARG ONBUILD_SECRET_KEY="bananas"
-ENV SECRET_KEY=${SECRET_KEY}
+ENV SECRET_KEY=${ONBUILD_SECRET_KEY}
 
 COPY requirements.txt requirements.txt
 
