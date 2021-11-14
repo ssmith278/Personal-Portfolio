@@ -12,4 +12,4 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-CMD ["echo", "SECRET_KEY=\$SECRET_KEY"]
+RUN echo SECRET_KEY=$SECRET_KEY
