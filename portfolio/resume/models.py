@@ -16,6 +16,18 @@ class TimeStamped(models.Model):
         abstract = True
         ordering = ('-modified_at',)
 
+# ContactInfo Model
+#
+#    Purpose:
+#        A record of an applicant's contact information. Includes the following:
+#
+#        - Street Address (CharField):      Number and street name of applicant's residence
+#        - City (CharField):                City of applicant's residence 
+#        - State (CharField):               State of applicant's residence
+#        - Zip Code (SmallIntegerField):    Zip code of applicant's residence    
+#        - Phone Number (CharField):        Applicant's primary phone number (validated by regex)
+#        - Email (EmailField):              Applicant's email address
+#
 class ContactInfo(TimeStamped):
     street_address = models.CharField(max_length=255, default='', help_text='Applicant\'s street address')
     city = models.CharField(max_length=64, default='', help_text='Applicant\'s city of residence')
