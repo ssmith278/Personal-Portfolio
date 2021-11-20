@@ -41,6 +41,7 @@ class ContactInfoModelTests(TestCase):
 
 class ResumeModelTest(TestCase):
 
+    @tag('fast')
     def test_singular_choice(self):
 
         resume = Resume(
