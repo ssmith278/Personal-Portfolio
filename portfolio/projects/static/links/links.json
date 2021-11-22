@@ -1,0 +1,17 @@
+{
+    "linkedin": 
+    {
+        "link": "https://www.linkedin.com/in/stevesmithcs/",
+        "fa-icon": "fa fa-linkedin"
+    },
+    "github": 
+    {
+        "link": "https://github.com/ssmith278/",
+        "fa-icon": "fa fa-github"
+    },
+    "instagram": 
+    {
+        "link": "https://www.instagram.com/findingthingseveryday/",
+        "fa-icon": "fa fa-instagram"
+    } 
+}
