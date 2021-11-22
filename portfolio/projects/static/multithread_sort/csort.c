@@ -156,19 +156,19 @@ void spawnAndSort(int n, int t, int debugOn, double *dArr)
     
     clock_gettime(CLOCK_MONOTONIC, &end);
     
+    for(i = 0; i < n; i++)
+    {
+        dArr[i] = result->dArr[i];
+    }
+
     if(debugOn)
     {
         printf("Sorted array: \n");
         printArray(n, dArr);
-    }
-
-    elapsed = (end.tv_sec - start.tv_sec) * 1000.0;
-    elapsed += (end.tv_nsec - start.tv_nsec) / 1000000.0;
-    printf("\nExecution time: %f ms\n", elapsed);
-
-    for(i = 0; i < n; i++)
-    {
-        dArr[i] = result->dArr[i];
+        
+        elapsed = (end.tv_sec - start.tv_sec) * 1000.0;
+        elapsed += (end.tv_nsec - start.tv_nsec) / 1000000.0;
+        printf("\nExecution time: %f ms\n", elapsed);
     }
 
     free(result->dArr);
@@ -177,14 +177,17 @@ void spawnAndSort(int n, int t, int debugOn, double *dArr)
 
 void getUnsortedArray(int n, double *pArr)
 {
-    int min = 1.0;
-    int max = 1000.0;
+    double min = 1.0;
+    double max = 1000.0;
     int i;
 
+    double range = max - min;
+    double div = RAND_MAX / range;
+    
     srand(time(0));
     for(i = 0; i < n; i++)
-    {
-        pArr[i] = (rand() / RAND_MAX / (max - min)) + min;
+    {        
+        pArr[i] = (rand() / div) + min;
     }
 }
 
@@ -194,7 +197,8 @@ void *sortArray(void *arg)
     double *dArr = tmpArr->dArr;
 
     //Insertion Sort
-    int i, j, k;
+    int i, j;
+    double k;
     for(i = 1; i < tmpArr->n; i++)
     {
         k = dArr[i];
@@ -206,7 +210,7 @@ void *sortArray(void *arg)
             j = j-1;
         }
         dArr[j+1] = k;
-    }
+    }    
 
     return NULL;
 }
@@ -221,19 +225,19 @@ void *mergeArrays(void *arg)
 
     int i;
     int totalN = t*n;
-    int totalIdx = 0;
-    int idx[t];
+    int resultIdx = 0;
+    int currentIdx[t];
 
     for(i = 0; i < t; i++)
     {
-        idx[i] = 0;
+        currentIdx[i] = 0;
     }
 
     Sortable *result = (Sortable*)malloc(sizeof(Sortable));
     result->dArr = (double *)malloc(sizeof(double) * totalN);
     double *dArr = result->dArr;
 
-    while(totalIdx < totalN)
+    while(resultIdx < totalN)
     {
         int minSlice = -1;
         
@@ -241,21 +245,21 @@ void *mergeArrays(void *arg)
         for(i = 0; i < t; i++)
         {
             //Get slice idx for min element
-            if(idx[i] < n)
+            if(currentIdx[i] < n)
             {
                 if(minSlice < 0) minSlice = i;
-                if(slices[i].dArr[idx[i]] < slices[minSlice].dArr[idx[minSlice]])
+                if(slices[i].dArr[currentIdx[i]] < slices[minSlice].dArr[currentIdx[minSlice]])
                 {
                     minSlice = i;
                 }
             }
         }
         // Add minimum element to new array
-        dArr[totalIdx] = slices[minSlice].dArr[idx[minSlice]];
-        idx[minSlice]++;
-        totalIdx++;       
+        dArr[resultIdx] = slices[minSlice].dArr[currentIdx[minSlice]];
+        currentIdx[minSlice]++;
+        resultIdx++;       
     }
-    
+
     return (void*)result;
 }
 
@@ -278,7 +282,7 @@ void printArray(int n, double *pArr)
             printf("\t");
         }
 
-        printf("%.3f", pArr[i]);
+        printf("%06.3f", pArr[i]);
        
         if(i == n-1)
         {
