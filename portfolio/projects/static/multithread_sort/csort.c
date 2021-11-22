@@ -184,7 +184,7 @@ void getUnsortedArray(int n, double *pArr)
     srand(time(0));
     for(i = 0; i < n; i++)
     {
-        pArr[i] = (rand() % max) + min;
+        pArr[i] = (rand() / RAND_MAX / (max - min)) + min;
     }
 }
 
