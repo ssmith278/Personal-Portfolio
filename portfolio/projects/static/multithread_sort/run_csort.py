@@ -2,8 +2,8 @@ import copy
 import ctypes
 from ctypes import POINTER
 import numpy as np
-import os
 import random
+import timeit
 
 def longest_str(arr):
     return max(map(len, arr))
@@ -58,30 +58,47 @@ def spawn_and_sort(input_arr, num_threads, debug_setting=False, lib_filepath='cs
 
     return sorted_arr
 
-def main():
+def compare():
     MIN, MAX = 0, 10
     N = 100
     T = 2
-    debugOn = False
-    lib_filepath = os.path(os.getcwd(),'/csort.so')
+    
+    repeat = 3
+    iterations = 1000
 
-    csort = ctypes.CDLL(lib_filepath)
+    setup = '''
+gc.enable()
+import copy
+import ctypes
+from ctypes import POINTER
+import numpy as np
+from run_csort import spawn_and_sort, get_random_arr
+lib_filepath = './csort.so'
 
-    # csort.spawnAndSortRandom.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_int]
-    # csort.spawnAndSortRandom(N, T, debugOn)
+N = 100000
+T = 20
 
-    pyarr = np.array(get_random_arr(N, MIN, MAX), dtype=float)
-    arr = pyarr.ctypes.data_as(ctypes.POINTER(ctypes.c_double))
+test_arr = get_random_arr(N)
 
-    pyarr = list(copy.deepcopy(pyarr))
+csort = ctypes.CDLL(lib_filepath)
 
-    csort.spawnAndSort.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_int, POINTER(ctypes.c_double)]
-    csort.spawnAndSort(N, T, debugOn, arr)
+pyarr = np.array(test_arr, dtype=float)
+sorted_arr = pyarr.ctypes.data_as(ctypes.POINTER(ctypes.c_double))
 
-    arr = [arr[i] for i in range(N)]
+pyarr = list(copy.deepcopy(pyarr))
 
-    col_print(pyarr, cols=5)
-    col_print(arr, cols=5)
+csort.spawnAndSort.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_int, POINTER(ctypes.c_double)]
+'''
+
+    csort_result = timeit.timeit('csort.spawnAndSort(N, T, False, sorted_arr)', setup=setup, number=iterations)
+
+    pysort_result = timeit.timeit('sorted(test_arr)', setup=setup, number=iterations)
+
+    print('CSort time: %s'%(csort_result))
+    print('PySort time: %s'%(pysort_result))
+
+def main():
+    pass
 
 if __name__ == '__main__':
     main()
