@@ -19,8 +19,29 @@ Steve Smith
     </span>
   </div>
 
-  <form class="button" action="{% url 'projects' %}" method="POST">{% csrf_token %}
-    <input type="submit" value="Randomize Data" class="reset" name="reset">
+  <form action="{% url 'projects' %}" method="POST">{% csrf_token %}
+    <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+      <label for="length" style="float: left;">List Length</label>
+      <input id="length" class="form-control" type="number" name="length" max="10000", value="{{ request.session.data.length }}">
+
+      <label for="num_threads" style="float: left;">Number of threads:</label>
+      <input id="num_threads" class="form-control" type="number" name="num_threads" value="{{ request.session.data.num_threads }}">
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+      <label for="min_value" style="float: left;">Minimum Value:</label>
+      <input id="min_value" class="form-control" type="number" name="min_value" value="{{ request.session.data.min_value }}">
+
+      <label for="max_value" style="float: left;">Maximum Value:</label>
+      <input id="max_value" class="form-control" type="number" name="max_value" value="{{ request.session.data.max_value }}">
+    </div>
+
+    <div class="button">      
+      <input type="submit" value="Set Configurations" class="set" name="set">
+    </div>
+
+    <div class="button">      
+      <input type="submit" value="Randomize Data" class="reset" name="reset">
+    </div>
   </form> 
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -50,7 +71,9 @@ Steve Smith
               }]
             },
             options: {
+              parsing: false,
               responsive: true,
+              animation: false,
               title: {
                 display: true,
               }
@@ -87,6 +110,8 @@ Steve Smith
             },
             options: {
               responsive: true,
+              animation: false,
+              parsing: false,
               title: {
                 display: true,
               }
