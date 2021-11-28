@@ -141,32 +141,33 @@
     <section class="counter">
 		<!-- =============== container =============== -->
         <div class="container">            
-            <div class="row">
-			 <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".1s">
-                            <i class="fa fa-code size"></i>
-							<h2></h2>
-							<span><a href="https://www.github.com/ssmith278" target="_blank">Software Engineer</a></span>
-                  </div>     
-               <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".2s">
-                            <i class="fa fa-globe size"></i>
-                            <h2></h2>
-							<span><a href="https://www.google.com/maps/d/u/0/edit?mid=1b7_q0Sjo2Ehm4sNXodn31517N5ezY11W&usp=sharing" target="_blank">World Traveller</a></span>
-                  </div>  
-				   <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".3s">
-                            <i class="fa fa-language size"></i>
-							<h2></h2>
-							<span>Japanese Speaker</span>
-                  </div>  
-				   <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".4s">                            
-                            <i class="fa fa-dot-circle size"></i>    
-                            <h2></h2>
-							<span>Billiards Player</span>
-                  </div>  
-				   <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".5s">
-                            <i class="fa fa-heart size"></i>
-							<h2></h2>
-							<span><a href="https://www.fitbit.com/user/9GJ7YL" target="_blank">Health Enthusiast</a></span>
-                  </div>  
+            <div class="row text-center">
+                <h1 class="title">My Hats</h1>
+                <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".1s">
+                    <i class="fa fa-code size"></i>
+                    <h2></h2>
+                    <span><a href="https://www.github.com/ssmith278" target="_blank">Software Engineer</a></span>
+                </div>     
+                <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".2s">
+                    <i class="fa fa-globe size"></i>
+                    <h2></h2>
+                    <span><a href="https://www.google.com/maps/d/u/0/edit?mid=1b7_q0Sjo2Ehm4sNXodn31517N5ezY11W&usp=sharing" target="_blank">Traveller</a></span>
+                </div>  
+                <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".3s">
+                    <i class="fa fa-language size"></i>
+                    <h2></h2>
+                    <span>Japanese Speaker</span>
+                </div>  
+                <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".4s">                            
+                    <i class="fa fa-dot-circle size"></i>    
+                    <h2></h2>
+                    <span>Billiards Player</span>
+                </div>  
+                <div class="col-xs-12 col-sm-2 col-md-2 wow fadeInUp animated" data-wow-delay=".5s">
+                    <i class="fa fa-heart size"></i>
+                    <h2></h2>
+                    <span><a href="https://www.fitbit.com/user/9GJ7YL" target="_blank">Health Enthusiast</a></span>
+                    </div>  
             </div>
         </div>   
 		<!-- =============== container end =============== -->		
@@ -186,7 +187,7 @@
 
 				<div class="col-xs-12 col-sm-12 col-md-12 wow bounceIn animated" data-wow-delay=".1s">
 
-					<form action="#" method="post">
+					<form action="#contact" method="post">{% csrf_token %}
 						<div class="ajax-hidden">
 							<div class="col-xs-12 col-sm-6 col-md-6 form-group wow fadeInUp animated">
 								<label for="c_name" class="sr-only">Name</label>
@@ -204,7 +205,11 @@
 
 							<button data-wow-delay=".3s" class="btn btn-sm btn-block wow fadeInUp animated" type="submit">Send Message</button>
 						</div>
-						<div class="ajax-response"></div>
+						<div id="ajax-response" data-url="{% url 'message-sent' %}">
+                            {% if data.message_sent_success %}
+                                Message sent!
+                            {% endif %}
+                        </div>
 					</form>
 
 				</div>              
@@ -294,6 +299,24 @@ window.onload = function() {
         }
     });
 };
+</script>
+<script>
+    $(function () {
+      $.ajax({
+        url: $("#ajax-response").data("url"),
+        method: "GET",
+        success: function(data){    
+            var message;
+            if (data.message_sent_success){
+                message = "Message sent!";
+            }
+            else{
+                message = "";
+            }
+            $("#ajax-response").html(message);
+        }
+      });
+    });
 </script>
 </body>
 </html>
